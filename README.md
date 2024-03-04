@@ -7,7 +7,7 @@ Lastly, Fair warning that this code is <b> very </b> buggy and if used requires 
 
 
 Source Contributors 
-- dev_kelz
+- dev_kelz (owner)
 - waterbottle
 - byte
 - slam
