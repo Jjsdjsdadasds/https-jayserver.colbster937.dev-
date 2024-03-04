@@ -1,17 +1,16 @@
 <?php
 session_start();
+include 'util/db_connect.php';
 
-// Check if the user is not logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: maintenance.php');
+    header('Location: /maintenance');
     exit;
 }
 
-// Check session timeout (10 minutes)
-if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 60)) {
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 60))) {
     session_unset();
     session_destroy();
-    header('Location: maintenance.php');
+    header('Location: /maintenance');
     exit;
 }
 
@@ -24,20 +23,20 @@ $_SESSION['last_activity'] = time();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Login - Brickia</title>
-   
-    <!-- Styling Stuff -->
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-  
-    <!-- Captcha -->
     <script src="https://hcaptcha.com/1/api.js" async defer></script>
     
     <style>
         body {
             background-color: #212529;
             color: #fff;
-            font-family: 'Montserrat', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -113,16 +112,20 @@ $_SESSION['last_activity'] = time();
 </head>
 <body>
 
+<div class="alert alert-warning" role="alert">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    <strong> Warning! </strong> This website is currently in development and not finished yet as things are being worked on currently.
+</div>
+
 <div class="login-container">
     <div class="login-header">
-        <!--<left><a href="/" class="btn btn-link"><i class="fas fa-arrow-left"></i> Back</a>-->
     </div>
 
     <div class="login-header">
         <div>
             <img src="/favicon.ico" alt="Logo" class="login-img">
             <h1 class="display-5">Login to Brickia</h1>
-            Login to Brickia using an <b> already-made </b> account
+            Login to Brickia using an already-made account
         </div>
     </div>
 
@@ -139,7 +142,10 @@ $_SESSION['last_activity'] = time();
         <center>
         <div class="h-captcha" data-sitekey="f27c222c-fda6-423f-bf47-fcbfbfa634e2"></div>
 
-        <button type="submit" class="btn btn-primary login-btn-modal"><i class="fas fa-sign-in-alt"></i> <b>Login</b></button>
+<form action="login.php" method="post">
+
+    <button type="submit" class="btn btn-primary login-btn-modal"><i class="fas fa-sign-in-alt"></i> <b>Login!</b></button>
+</form>
     </form>
 
     <a href="#" class="forgot-password-btn-modal" data-toggle="modal" data-target="#passwordRecoveryModal">
@@ -150,7 +156,6 @@ $_SESSION['last_activity'] = time();
     </a>
 </div>
 
-<!-- Password Recovery Modal -->
 <div class="modal fade" id="passwordRecoveryModal" tabindex="-1" role="dialog" aria-labelledby="passwordRecoveryModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content bg-dark text-light">
@@ -170,12 +175,10 @@ $_SESSION['last_activity'] = time();
     </div>
 </div>
 
-<!-- Bootstrap JS and jQuery -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-<!-- Script to show modal on page load -->
 <script>
     $(document).ready(function () {
         $('#loginModal').modal('show');
